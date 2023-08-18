@@ -1,0 +1,8 @@
+URL_CONNECT_MONGODB=""
+SERVER_CONFIG={hostname="localhost",port=4001}
+ATLAS_USE=""
+
+
+# nota: Para que una variable de entorno pueda almacenar más variables,
+# es necesario guardar los datos dentro de ella como si fueran un JSON
+# tal y como se muestra de ejemplo con SERVER_CONFIG
