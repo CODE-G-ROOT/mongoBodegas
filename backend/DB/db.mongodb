@@ -1,49 +1,185 @@
 use('mongo_bodegas');
-db.createCollection('historiales', {
+db.createCollection('users',
+{
     capped: true,
-    size: "",
+    size: 500,
     max: 10,
-    validator : {
+    validator: {
         $jsonSchema: {
-            bsonType: "object",
-            requied: [
-                "id",
-                "cantidad",
-                "creaded_at",
-                "update_at",
+            required: [
+                "nombre",
+                "email",
+                "estado",
+                "password"
             ],
             properties: {
-                id: { bsonType : "int" },
-                cantidad: { bsonType: "int" },
-                create_at: { bsonType: "date" },
-                update_at: { bsonType: "date" }
+                nombre: { 
+                    bsonType: "string", 
+                    minLength: 4, 
+                    maxLength: 41, 
+                    pattern: "^[A-Za-z\\s]+$",
+                    description: "El campo nombre es requerido y este debe ser un string mayor a 4 carácteres y menor a 41"
+                },
+                email: { 
+                    bsonType: "string", 
+                    pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+                    description: "El campo email debe ser de tipo string"
+                },
+                estado: { 
+                    bsonType: "string",
+                    description: "El campo 'estado' debe ser string"
+                },
+                email_verified_at: { 
+                    bsonType: "date",
+                    description: "el campo de verificación del email debe de ser tipo date con la estructura YYYY-MM-DD"
+                },
+                foto: { 
+                    bsonType: "string",
+                    description: "el campo de la foto debe de ser string"
+                },
+                created_by: { 
+                    bsonType: "date",
+                    description: "el campo 'creado por' debe de ser tipo date con el formato YYYY-MM-DD"
+                },
+                updated_by: { 
+                    bsonType: "date",
+                    description: "el campo 'actualizado por' debe de ser tipo date con el formato YYYY-MM-DD"
+                },
+                deleted_by: { 
+                    bsonType: "string",
+                    description: "el campo de eliminación debe de ser de tipo string"
+                },
+                password: { 
+                    bsonType: "string", 
+                    description: "el campo constraña debe de ser de tipo string y puede contener carácteeres especiales"
+                },
             }
         }
-    },
-    validatorAction: error
+    }
 });
+db.users.insertMany([
+    {
+        nombre: "JuanD",
+        email: "juandavidavilaravelo856@gmail.com",
+        foto: "../../assets/img/users/imagen_1.jpg",
+        estado: "activo",
+        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
+        created_by: ISODate("2023-08-15T00:00:00Z"),
+        updated_by: ISODate("2023-08-15T00:00:00Z"),
+        deleted_by: 'jlk',
+        password: "minionculion123"
+    },
+    {
+        nombre: "David",
+        email: "juanavila856@gmail.com",
+        foto: "../../assets/img/users/imagen_1.jpg",
+        estado: "innactivo",
+        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
+        created_by: ISODate("2023-08-15T00:00:00Z"),
+        updated_by: ISODate("2023-08-15T00:00:00Z"),
+        deleted_by: '',
+        password: "minionculion123"
+    },
+    {
+        nombre: "Josue",
+        email: "juanavila8856@gmail.com",
+        foto: "../../assets/img/users/imagen_1.jpg",
+        estado: "activo",
+        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
+        created_by: ISODate("2023-08-15T00:00:00Z"),
+        updated_by: ISODate("2023-08-15T00:00:00Z"),
+        deleted_by: '',
+        password: "minionculion123"
+    },
+    {
+        nombre: "Ana",
+        email: "ana@example.com",
+        foto: "../../assets/img/users/imagen_2.jpg",
+        estado: "activo",
+        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
+        created_by: ISODate("2023-08-15T00:00:00Z"),
+        updated_by: ISODate("2023-08-15T00:00:00Z"),
+        deleted_by: '',
+        password: "password123"
+    },
+    {
+        nombre: "Carlos",
+        email: "carlos@example.com",
+        foto: "../../assets/img/users/imagen_3.jpg",
+        estado: "inactivo",
+        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
+        created_by: ISODate("2023-08-15T00:00:00Z"),
+        updated_by: ISODate("2023-08-15T00:00:00Z"),
+        deleted_by: '',
+        password: "securepass456"
+    },
+    {
+        nombre: "María",
+        email: "maria@example.com",
+        foto: "../../assets/img/users/imagen_4.jpg",
+        estado: "activo",
+        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
+        created_by: ISODate("2023-08-15T00:00:00Z"),
+        updated_by: ISODate("2023-08-15T00:00:00Z"),
+        deleted_by: '',
+        password: "strongpwd789"
+    },
+]);
+
 
 use('mongo_bodegas');
-db.createCollection('bodegas', {
+db.useres.drop()
+
+// use('mongo_bodegas');
+// db.createCollection('historiales', {
+//     capped: true,
+//     size: "",
+//     max: 10,
+//     validator : {
+//         $jsonSchema: {
+//             bsonType: "object",
+//             requied: [
+//                 "cantidad",
+//             ],
+//             properties: {
+//                 cantidad: { bsonType: "Int" },
+//                 create_at: { bsonType: "date", default: Date.now },
+//                 update_at: { bsonType: "date", default: Date.now},
+//                 delete_at: { bsonType: "date", default: null}
+//             }
+//         }
+//     },
+//     validatorAction: error
+// });
+// db.historiales.insertMany([
+//     {
+//         cantidad: 5,
+//         create
+//     }
+// ])
+
+use('mongo_bodegas');
+db.createCollection('bodegas',
+{
     capped: true,
-    size : "",
+    size: "",
     max: 10,
     validator: {
         $jsonSchema: {
             bsonType: "object",
             required: [
-                "id",
                 "nombre",
                 "estado",
-                "created_at",
-                "updated_at"
             ],
             properties: {
-                id: { bsonType: "int" },
-                nombre: { bsonType: "string" },
-                estado: { bsonType: "string" },
-                created_at: { bsonType: "date"},
-                update_at: { bsonType: "date"}
+                nombre: { bsonType: "string", minLength: 4, maxLength: 41
+                },
+                estado: { bsonType: "string"
+                },
+                created_at: { bsonType: "date", default: Date.now
+                },
+                update_at: { bsonType: "date", default: Date.now
+                }
             }
         }
     },
@@ -51,25 +187,62 @@ db.createCollection('bodegas', {
 });
 
 use('mongo_bodegas');
-db.createCollection('inventarios',{
+db.createCollection('inventarios',
+{
     capped: true,
     size: "",
     max: 10,
     validator: {
         $jsonSchema: {
             requied: [
-                "id",
                 "cantidad",
-                "created_at",
-                "updated_at"
             ],
             properties: {
-                id: { bsonType: "int" },
-                cantidad: { bsonType: "int" },
-                created_at : { bsonType: "date"},
-                updated_at : { bson_Type: "date"}
+                cantidad: { bsonType: "Int"
+                },
+                created_at: { bsonType: "date", default: Date.now
+                },
+                updated_at: { bsonType: "date", default: Date.now
+                },
+                deleted_at: { bsonType: "date", default: null
+                }
             }
         }
     },
     validatorAction: error
-})
+});
+
+use('mongo_bodegas');
+db.createCollection('productos',
+{
+    capped: true,
+    size: '',
+    max: 10,
+    validator: {
+        $jsonSchema: {
+            required: [
+                "nombre",
+                "descripcion",
+                "estado",
+            ],
+            properties: {
+                nombre: { bsonType: "string"
+                },
+                descripcion: { bsonType: "string"
+                },
+                estado: { bsonType: "string"
+                },
+                created_at: { bsonType: "date", default: Date.now
+                },
+                updated_at: { bsonType: "date", default: Date.now
+                },
+                deleted_at: { bsonType: "date", default: [
+                        null, Date.now
+                    ]
+                }
+            }
+        }
+    },
+    validatorAction: error
+});
+
