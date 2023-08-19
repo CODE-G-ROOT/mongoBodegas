@@ -1,0 +1,75 @@
+use('mongo_bodegas');
+db.createCollection('historiales', {
+    capped: true,
+    size: "",
+    max: 10,
+    validator : {
+        $jsonSchema: {
+            bsonType: "object",
+            requied: [
+                "id",
+                "cantidad",
+                "creaded_at",
+                "update_at",
+            ],
+            properties: {
+                id: { bsonType : "int" },
+                cantidad: { bsonType: "int" },
+                create_at: { bsonType: "date" },
+                update_at: { bsonType: "date" }
+            }
+        }
+    },
+    validatorAction: error
+});
+
+use('mongo_bodegas');
+db.createCollection('bodegas', {
+    capped: true,
+    size : "",
+    max: 10,
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: [
+                "id",
+                "nombre",
+                "estado",
+                "created_at",
+                "updated_at"
+            ],
+            properties: {
+                id: { bsonType: "int" },
+                nombre: { bsonType: "string" },
+                estado: { bsonType: "string" },
+                created_at: { bsonType: "date"},
+                update_at: { bsonType: "date"}
+            }
+        }
+    },
+    validatorAction: error
+});
+
+use('mongo_bodegas');
+db.createCollection('inventarios',{
+    capped: true,
+    size: "",
+    max: 10,
+    validator: {
+        $jsonSchema: {
+            requied: [
+                "id",
+                "cantidad",
+                "created_at",
+                "updated_at"
+            ],
+            properties: {
+                id: { bsonType: "int" },
+                cantidad: { bsonType: "int" },
+                created_at : { bsonType: "date"},
+                updated_at : { bson_Type: "date"}
+            }
+        }
+    },
+    validatorAction: error
+})
