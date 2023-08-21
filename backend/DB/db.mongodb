@@ -126,123 +126,50 @@ db.users.insertMany([
     },
 ]);
 
-
 use('mongo_bodegas');
-db.useres.drop()
-
-// use('mongo_bodegas');
-// db.createCollection('historiales', {
-//     capped: true,
-//     size: "",
-//     max: 10,
-//     validator : {
-//         $jsonSchema: {
-//             bsonType: "object",
-//             requied: [
-//                 "cantidad",
-//             ],
-//             properties: {
-//                 cantidad: { bsonType: "Int" },
-//                 create_at: { bsonType: "date", default: Date.now },
-//                 update_at: { bsonType: "date", default: Date.now},
-//                 delete_at: { bsonType: "date", default: null}
-//             }
-//         }
-//     },
-//     validatorAction: error
-// });
-// db.historiales.insertMany([
-//     {
-//         cantidad: 5,
-//         create
-//     }
-// ])
-
-use('mongo_bodegas');
-db.createCollection('bodegas',
-{
+db.createCollection('bodegas',{
     capped: true,
-    size: "",
-    max: 10,
+    size: 900,
+    max: 220,
     validator: {
         $jsonSchema: {
-            bsonType: "object",
+            type: "object",
             required: [
+                "id_bodega",
                 "nombre",
                 "estado",
+                "responsable",
+                "created_at",
+                "updated_at",
+                "deleted_at"
             ],
             properties: {
-                nombre: { bsonType: "string", minLength: 4, maxLength: 41
+                id_bodegas: {
+                    bsonType: "int",
+                    description: "id field just could be interger type"
                 },
-                estado: { bsonType: "string"
+                nombre: {
+                    bsonType: "string",
+                    pattern: "^[A-Za-z0-9\-]+$",
+                    description: "the bodega name just could be string type and just could contain letters, numbers and the simbol '-'"
                 },
-                created_at: { bsonType: "date", default: Date.now
+                resposable: {
+                    bsonType: "string",
+                    description: "responable field must be string type"
                 },
-                update_at: { bsonType: "date", default: Date.now
-                }
+                created_at: {
+                    bsonType: "date",
+                    description: "create_at field must be date type"
+                },
+                updated_at: {
+                    bsonType: "date",
+                    description: "uptade_at field must be date type"
+                },
+                deleted_at: {
+                    bsonType: [null, "date"],
+                    description: "delete_at field must be null o date type"
+                } 
             }
         }
-    },
-    validatorAction: error
+    }
 });
-
-use('mongo_bodegas');
-db.createCollection('inventarios',
-{
-    capped: true,
-    size: "",
-    max: 10,
-    validator: {
-        $jsonSchema: {
-            requied: [
-                "cantidad",
-            ],
-            properties: {
-                cantidad: { bsonType: "Int"
-                },
-                created_at: { bsonType: "date", default: Date.now
-                },
-                updated_at: { bsonType: "date", default: Date.now
-                },
-                deleted_at: { bsonType: "date", default: null
-                }
-            }
-        }
-    },
-    validatorAction: error
-});
-
-use('mongo_bodegas');
-db.createCollection('productos',
-{
-    capped: true,
-    size: '',
-    max: 10,
-    validator: {
-        $jsonSchema: {
-            required: [
-                "nombre",
-                "descripcion",
-                "estado",
-            ],
-            properties: {
-                nombre: { bsonType: "string"
-                },
-                descripcion: { bsonType: "string"
-                },
-                estado: { bsonType: "string"
-                },
-                created_at: { bsonType: "date", default: Date.now
-                },
-                updated_at: { bsonType: "date", default: Date.now
-                },
-                deleted_at: { bsonType: "date", default: [
-                        null, Date.now
-                    ]
-                }
-            }
-        }
-    },
-    validatorAction: error
-});
-
