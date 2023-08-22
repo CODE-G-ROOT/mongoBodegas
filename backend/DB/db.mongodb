@@ -1,57 +1,58 @@
 use('mongo_bodegas');
-db.createCollection('users',
-    {
-        capped: true,
-        size: 1000,
-        max: 10,
-        validator: {
-            $jsonSchema: {
-                required: [
-                    "nombre",
-                    "email",
-                    "estado",
-                    "password"
-                ],
-                properties: {
-                    nombre: {
-                        bsonType: "string",
-                        description: "El campo nombre es requerido y este debe ser un string mayor a 4 carácteres y menor a 41"
-                    },
-                    email: {
-                        bsonType: "string",
-                        description: "El campo email debe ser de tipo string"
-                    },
-                    estado: {
-                        bsonType: "string",
-                        description: "El campo 'estado' debe ser string"
-                    },
-                    email_verified_at: {
-                        bsonType: "date",
-                        description: "el campo de verificación del email debe de ser tipo date con la estructura YYYY-MM-DD"
-                    },
-                    foto: {
-                        bsonType: "string",
-                        description: "el campo de la foto debe de ser string"
-                    },
-                    created_by: {
-                        bsonType: "date",
-                        description: "el campo 'creado por' debe de ser tipo date con el formato YYYY-MM-DD"
-                    },
-                    updated_by: {
-                        bsonType: "date",
-                        description: "el campo 'actualizado por' debe de ser tipo date con el formato YYYY-MM-DD"
-                    },
-                    deleted_by: {
-                        bsonType: "string",
-                        description: "el campo de eliminación debe de ser de tipo string"
-                    },
-                    password: {
-                        bsonType: "string",
-                        description: "el campo constraña debe de ser de tipo string y puede contener carácteeres especiales"
-                    }
+db.createCollection('users',{
+    capped: true,
+    size: 1000,
+    max: 10,
+    validator: {
+        $jsonSchema: {
+            required: [
+                "nombre",
+                "email",
+                "estado",
+                "password"
+            ],
+            properties: {
+                nombre: {
+                    bsonType: "string",
+                    description: "El campo nombre es requerido y este debe ser un string mayor a 4 carácteres y menor a 41"
+                },
+                email: {
+                    bsonType: "string",
+                    description: "El campo email debe ser de tipo string"
+                },
+                estado: {
+                    bsonType: "string",
+                    description: "El campo 'estado' debe ser string"
+                },
+                email_verified_at: {
+                    bsonType: "date",
+                    description: "el campo de verificación del email debe de ser tipo date con la estructura YYYY-MM-DD"
+                },
+                foto: {
+                    bsonType: "string",
+                    description: "el campo de la foto debe de ser string"
+                },
+                created_by: {
+                    bsonType: "date",
+                    description: "el campo 'creado por' debe de ser tipo date con el formato YYYY-MM-DD"
+                },
+                updated_by: {
+                    bsonType: "date",
+                    description: "el campo 'actualizado por' debe de ser tipo date con el formato YYYY-MM-DD"
+                },
+                deleted_by: {
+                    bsonType: "string",
+                    description: "el campo de eliminación debe de ser de tipo string"
+                },
+                password: {
+                    bsonType: "string",
+                    description: "el campo constraña debe de ser de tipo string y puede contener carácteeres especiales"
                 }
             }
         }
+    },
+    validationLevel : "strict",
+    validationAction: "error"
 });
 use('mongo_bodegas');
 db.users.insertMany([
@@ -127,7 +128,6 @@ db.createCollection('bodegas', {
                 "responsable",
                 "created_at",
                 "updated_at",
-                "deleted_at"
             ],
             properties: {
                 id_bodegas: {
@@ -157,21 +157,23 @@ db.createCollection('bodegas', {
                 }
             }
         }
-    }
+    },
+    validationLevel : "strict",
+    validationAction: "error"
 });
 
 use('mongo_bodegas');
 db.createCollection('productos', {
     capped: true,
     size: 900,
-    max: 10,
+    max: 220,
     validator: {
         $jsonSchema: {
-            type: 'object',
+            type: "object",
             required: [
                 "id_productos",
                 "nombre",
-                "descripcion",
+                "description",
                 "estado",
                 "created_at",
                 "updated_at",
@@ -179,29 +181,120 @@ db.createCollection('productos', {
             properties: {
                 id_productos: {
                     bsonType: "int",
-                    description: "id_pro must be interger type",
+                    description: "products id field must be interger type"
                 },
                 nombre: {
                     bsonType: "string",
-                    description: "product name must be string type"
+                    pattern: "^[A-Za-z0-9\-]+$",
+                    description: "product name msut be string type, just allow letters and numbers"
+                },
+                description: {
+                    bsonType: "string",
+                    description: "products description must be string type"
                 },
                 estado: {
                     bsonType: "string",
-                    description: "product status must be string type"
+                    description: "products status field must be string type"
                 },
                 created_at: {
                     bsonType: "date",
-                    description: "product creation at must be date type"
+                    description: "products created at field must be date type"
                 },
                 updated_at: {
                     bsonType: "date",
-                    description: "product update at must be date type"
+                    description: "products update at field must be date type"
                 },
                 deleted_at: {
                     bsonType: "string",
-                    description: "deleted product at must be string or null type"
+                    description: "products deleted at field must be string or null type"
                 }
             }
         }
-    }
+    },
+    validationLevel : "strict",
+    validationAction: "error"
 });
+
+use('mongo_bodegas');
+db.createCollection('inventarios', {
+    capped: true,
+    size: 900,
+    max: 10,
+    validator: {
+        $jsonSchema: {
+            type: 'object',
+            required: [
+                "id_inventarios",
+                "cantidad",
+                "created_at",
+                "updated_at",
+            ],
+            properties: {
+                id_inventarios: {
+                    bsonType: "int",
+                    description: "id_pro must be interger type",
+                },
+                cantidad: {
+                    bsonType: "string",
+                    description: "inventary name must be string type"
+                },
+                created_at: {
+                    bsonType: "date",
+                    description: "inventary creation at must be date type"
+                },
+                updated_at: {
+                    bsonType: "date",
+                    description: "inventary update at must be date type"
+                },
+                deleted_at: {
+                    bsonType: "string",
+                    description: "deleted inventary at must be string or null type"
+                }
+            }
+        }
+    },
+    validationLevel: "strict",
+    validationAction: "error"
+});
+
+use('mongo_bodegas');
+db.createCollection('historiales', {
+    capped: true,
+    size: 900,
+    max: 10,
+    validator: {
+        $jsonSchema: {
+            type: "object",
+            required: [
+                "id_historiales",
+                "cantidad",
+                "created_at",
+                "updated_at",
+            ],
+            properties: {
+                id_historiales: {
+                    bsonType: "int",
+                    description: "hisoriales identify field must be interger type"
+                },
+                cantidad: {
+                    bsonType: "int",
+                    description: "historiales cantidad field must be interger type"
+                },
+                created_at: {
+                    bsonType: "date",
+                    description: "historiales created at field must be date type"
+                },
+                updated_at: {
+                    bsonType: "date",
+                    description: "historiales updated at field must be date type"
+                },
+                deleted_at: {
+                    bsonType: "string",
+                    description: "historiales deleted at field must be string o null type"
+                }
+            }
+        }
+    },
+    validationAction: "error",
+    validationLevel: "strict"
+})
