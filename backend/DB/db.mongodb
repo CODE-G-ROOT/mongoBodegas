@@ -1,80 +1,76 @@
 use('mongo_bodegas');
 db.createCollection('users',
-{
-    capped: true,
-    size: 500,
-    max: 10,
-    validator: {
-        $jsonSchema: {
-            required: [
-                "nombre",
-                "email",
-                "estado",
-                "password"
-            ],
-            properties: {
-                nombre: { 
-                    bsonType: "string", 
-                    minLength: 4, 
-                    maxLength: 41, 
-                    pattern: "^[A-Za-z\\s]+$",
-                    description: "El campo nombre es requerido y este debe ser un string mayor a 4 carácteres y menor a 41"
-                },
-                email: { 
-                    bsonType: "string", 
-                    pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
-                    description: "El campo email debe ser de tipo string"
-                },
-                estado: { 
-                    bsonType: "string",
-                    description: "El campo 'estado' debe ser string"
-                },
-                email_verified_at: { 
-                    bsonType: "date",
-                    description: "el campo de verificación del email debe de ser tipo date con la estructura YYYY-MM-DD"
-                },
-                foto: { 
-                    bsonType: "string",
-                    description: "el campo de la foto debe de ser string"
-                },
-                created_by: { 
-                    bsonType: "date",
-                    description: "el campo 'creado por' debe de ser tipo date con el formato YYYY-MM-DD"
-                },
-                updated_by: { 
-                    bsonType: "date",
-                    description: "el campo 'actualizado por' debe de ser tipo date con el formato YYYY-MM-DD"
-                },
-                deleted_by: { 
-                    bsonType: "string",
-                    description: "el campo de eliminación debe de ser de tipo string"
-                },
-                password: { 
-                    bsonType: "string", 
-                    description: "el campo constraña debe de ser de tipo string y puede contener carácteeres especiales"
-                },
+    {
+        capped: true,
+        size: 1000,
+        max: 10,
+        validator: {
+            $jsonSchema: {
+                required: [
+                    "nombre",
+                    "email",
+                    "estado",
+                    "password"
+                ],
+                properties: {
+                    nombre: {
+                        bsonType: "string",
+                        description: "El campo nombre es requerido y este debe ser un string mayor a 4 carácteres y menor a 41"
+                    },
+                    email: {
+                        bsonType: "string",
+                        description: "El campo email debe ser de tipo string"
+                    },
+                    estado: {
+                        bsonType: "string",
+                        description: "El campo 'estado' debe ser string"
+                    },
+                    email_verified_at: {
+                        bsonType: "date",
+                        description: "el campo de verificación del email debe de ser tipo date con la estructura YYYY-MM-DD"
+                    },
+                    foto: {
+                        bsonType: "string",
+                        description: "el campo de la foto debe de ser string"
+                    },
+                    created_by: {
+                        bsonType: "date",
+                        description: "el campo 'creado por' debe de ser tipo date con el formato YYYY-MM-DD"
+                    },
+                    updated_by: {
+                        bsonType: "date",
+                        description: "el campo 'actualizado por' debe de ser tipo date con el formato YYYY-MM-DD"
+                    },
+                    deleted_by: {
+                        bsonType: "string",
+                        description: "el campo de eliminación debe de ser de tipo string"
+                    },
+                    password: {
+                        bsonType: "string",
+                        description: "el campo constraña debe de ser de tipo string y puede contener carácteeres especiales"
+                    }
+                }
             }
         }
-    }
 });
 use('mongo_bodegas');
 db.users.insertMany([
     {
-        nombre: "JuanD",
-        email: "juandavidavilaravelo856@gmail.com",
-        foto: "../../assets/img/users/imagen_1.jpg",
+        nombre: "Juan",
+        email: "juanperez@example.com",
+        foto: "https://example.com/juanperez.jpg",
         estado: "activo",
-        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
-        created_by: ISODate("2023-08-15T00:00:00Z"),
-        updated_by: ISODate("2023-08-15T00:00:00Z"),
-        deleted_by: 'jlk',
-        password: "minionculion123"
+        email_verified_at: ISODate("2023-08-22T02:19:23.000Z"),
+        created_by: ISODate("2023-08-22T02:19:23.000Z"),
+        updated_by: ISODate("2023-08-22T02:19:23.000Z"),
+        deleted_by: '',
+        password: "micontraseña123"
     },
     {
         nombre: "David",
         email: "juanavila856@gmail.com",
         foto: "../../assets/img/users/imagen_1.jpg",
-        estado: "innactivo",
+        estado: "inactivo", // Corrección: Cambiar "innactivo" a "inactivo"
         email_verified_at: ISODate("2023-08-15T00:00:00Z"),
         created_by: ISODate("2023-08-15T00:00:00Z"),
         updated_by: ISODate("2023-08-15T00:00:00Z"),
@@ -113,22 +109,11 @@ db.users.insertMany([
         updated_by: ISODate("2023-08-15T00:00:00Z"),
         deleted_by: '',
         password: "securepass456"
-    },
-    {
-        nombre: "María",
-        email: "maria@example.com",
-        foto: "../../assets/img/users/imagen_4.jpg",
-        estado: "activo",
-        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
-        created_by: ISODate("2023-08-15T00:00:00Z"),
-        updated_by: ISODate("2023-08-15T00:00:00Z"),
-        deleted_by: '',
-        password: "strongpwd789"
-    },
+    }
 ]);
 
 use('mongo_bodegas');
-db.createCollection('bodegas',{
+db.createCollection('bodegas', {
     capped: true,
     size: 900,
     max: 220,
@@ -169,21 +154,21 @@ db.createCollection('bodegas',{
                 deleted_at: {
                     bsonType: "string",
                     description: "delete_at field must be null o string type"
-                } 
+                }
             }
         }
     }
 });
 
 use('mongo_bodegas');
-db.createCollection('productos',{
+db.createCollection('productos', {
     capped: true,
     size: 900,
     max: 10,
     validator: {
         $jsonSchema: {
             type: 'object',
-            required:[
+            required: [
                 "id_productos",
                 "nombre",
                 "descripcion",
