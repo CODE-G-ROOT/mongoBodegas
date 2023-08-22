@@ -57,6 +57,7 @@ db.createCollection('users',
         }
     }
 });
+use('mongo_bodegas');
 db.users.insertMany([
     {
         nombre: "JuanD",
@@ -166,9 +167,55 @@ db.createCollection('bodegas',{
                     description: "uptade_at field must be date type"
                 },
                 deleted_at: {
-                    bsonType: [null, "date"],
-                    description: "delete_at field must be null o date type"
+                    bsonType: "string",
+                    description: "delete_at field must be null o string type"
                 } 
+            }
+        }
+    }
+});
+
+use('mongo_bodegas');
+db.createCollection('productos',{
+    capped: true,
+    size: 900,
+    max: 10,
+    validator: {
+        $jsonSchema: {
+            type: 'object',
+            required:[
+                "id_productos",
+                "nombre",
+                "descripcion",
+                "estado",
+                "created_at",
+                "updated_at",
+            ],
+            properties: {
+                id_productos: {
+                    bsonType: "int",
+                    description: "id_pro must be interger type",
+                },
+                nombre: {
+                    bsonType: "string",
+                    description: "product name must be string type"
+                },
+                estado: {
+                    bsonType: "string",
+                    description: "product status must be string type"
+                },
+                created_at: {
+                    bsonType: "date",
+                    description: "product creation at must be date type"
+                },
+                updated_at: {
+                    bsonType: "date",
+                    description: "product update at must be date type"
+                },
+                deleted_at: {
+                    bsonType: "string",
+                    description: "deleted product at must be string or null type"
+                }
             }
         }
     }
