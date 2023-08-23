@@ -426,9 +426,6 @@ db.productos.insertMany([
     }
 ]);
 
-use('mongo_bodegas');
-db.productos.drop()
-
 
 use('mongo_bodegas');
 db.createCollection('inventarios', {
@@ -448,7 +445,7 @@ db.createCollection('inventarios', {
                     description: "id_pro must be interger type",
                 },
                 cantidad: {
-                    bsonType: "string",
+                    bsonType: "int",
                     description: "inventary name must be string type"
                 },
                 created_at: {
@@ -460,7 +457,7 @@ db.createCollection('inventarios', {
                     description: "inventary update at must be date type"
                 },
                 deleted_at: {
-                    bsonType: "string",
+                    bsonType: ["null", "date"],
                     description: "deleted inventary at must be string or null type"
                 }
             }
@@ -470,8 +467,30 @@ db.createCollection('inventarios', {
     validationAction: "error"
 });
 
-
-
+use('mongo_bodegas');
+db.inventarios.insertMany([
+    {
+        id_inventarios: 1,
+        cantidad: 21,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_inventarios: 2,
+        cantidad: 1123,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_inventarios: 3,
+        cantidad: 212,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+]);
 
 use('mongo_bodegas');
 db.createCollection('historiales', {
