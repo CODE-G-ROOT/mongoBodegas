@@ -22,4 +22,7 @@ export class Bodegas {
     @IsDefined({ message: () => { throw { status: 400, message: "reference param is required", reference: "https://http.cat/400"}}})
     responsable: number = 0;
 
+    constructor(data: Partial<Bodegas>) {
+        Object.assign(this, data);
+    }
 }
