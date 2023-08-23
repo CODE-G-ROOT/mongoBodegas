@@ -531,3 +531,42 @@ db.createCollection('historiales', {
     validationAction: "error",
     validationLevel: "strict"
 })
+
+use('mongo_bodegas');
+db.historiales.insertMany([
+    {
+        id_historiales: 1,
+        cantidad: 123,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_historiales: 2,
+        cantidad: 453,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_historiales: 3,
+        cantidad: 364,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_historiales: 4,
+        cantidad: 13,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_historiales: 5,
+        cantidad: 67,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+])
