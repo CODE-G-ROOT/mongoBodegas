@@ -114,34 +114,35 @@ db.users.insertMany([
 ]);
 
 use('mongo_bodegas');
+
 db.createCollection('bodegas', {
     capped: true,
     size: 900,
     max: 220,
     validator: {
         $jsonSchema: {
-            type: "object",
+            bsonType: "object",
             required: [
                 "id_bodega",
                 "nombre",
                 "estado",
                 "responsable",
-                "created_at",
-                "updated_at",
+                "created_at", // Make sure to include these fields
+                "updated_at", // in the required array
+                "deleted_at"   // for proper validation
             ],
             properties: {
-                id_bodegas: {
+                id_bodega: {
                     bsonType: "int",
-                    description: "id field just could be interger type"
+                    description: "id field just could be integer type"
                 },
                 nombre: {
                     bsonType: "string",
-                    pattern: "^[A-Za-z0-9\-]+$",
-                    description: "the bodega name just could be string type and just could contain letters, numbers and the simbol '-'"
+                    description: "the bodega name just could be string type and just could contain letters, numbers and the symbol '-'"
                 },
-                resposable: {
-                    bsonType: "string",
-                    description: "responable field must be string type"
+                responsable: {
+                    bsonType: "int",
+                    description: "responsable field must be integer type"
                 },
                 created_at: {
                     bsonType: "date",
@@ -149,11 +150,11 @@ db.createCollection('bodegas', {
                 },
                 updated_at: {
                     bsonType: "date",
-                    description: "uptade_at field must be date type"
+                    description: "update_at field must be date type"
                 },
                 deleted_at: {
-                    bsonType: "string",
-                    description: "delete_at field must be null o string type"
+                    bsonType: ["null", "date"],
+                    description: "delete_at field must be null or date type"
                 }
             }
         }
@@ -161,6 +162,27 @@ db.createCollection('bodegas', {
     validationLevel : "strict",
     validationAction: "error"
 });
+
+db.bodegas.insertMany([
+    {
+        id_bodega: 1,
+        nombre: "Bodega-36",
+        responsable: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null
+    },
+    {
+        id_bodega: 2,
+        nombre: "Bodega-31",
+        responsable: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null
+    }
+]);
+
+
 
 use('mongo_bodegas');
 db.createCollection('productos', {
@@ -175,8 +197,6 @@ db.createCollection('productos', {
                 "nombre",
                 "description",
                 "estado",
-                "created_at",
-                "updated_at",
             ],
             properties: {
                 id_productos: {
@@ -226,8 +246,6 @@ db.createCollection('inventarios', {
             required: [
                 "id_inventarios",
                 "cantidad",
-                "created_at",
-                "updated_at",
             ],
             properties: {
                 id_inventarios: {
@@ -268,8 +286,6 @@ db.createCollection('historiales', {
             required: [
                 "id_historiales",
                 "cantidad",
-                "created_at",
-                "updated_at",
             ],
             properties: {
                 id_historiales: {
