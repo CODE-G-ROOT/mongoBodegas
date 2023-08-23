@@ -114,11 +114,10 @@ db.users.insertMany([
 ]);
 
 use('mongo_bodegas');
-
 db.createCollection('bodegas', {
     capped: true,
-    size: 900,
-    max: 220,
+    size: 1000,
+    max: 10,
     validator: {
         $jsonSchema: {
             bsonType: "object",
@@ -127,16 +126,21 @@ db.createCollection('bodegas', {
                 "nombre",
                 "estado",
                 "responsable",
-                "created_at", // Make sure to include these fields
-                "updated_at", // in the required array
-                "deleted_at"   // for proper validation
+                "created_at",
+                "updated_at",
+                "deleted_at"
             ],
             properties: {
                 id_bodega: {
                     bsonType: "int",
                     description: "id field just could be integer type"
                 },
+                
                 nombre: {
+                    bsonType: "string",
+                    description: "the bodega name just could be string type and just could contain letters, numbers and the symbol '-'"
+                },
+                estado: {
                     bsonType: "string",
                     description: "the bodega name just could be string type and just could contain letters, numbers and the symbol '-'"
                 },
@@ -162,26 +166,23 @@ db.createCollection('bodegas', {
     validationLevel : "strict",
     validationAction: "error"
 });
+use('mongo_bodegas');
+db.bodegas.drop();
 
-db.bodegas.insertMany([
-    {
-        id_bodega: 1,
-        nombre: "Bodega-36",
-        responsable: 1,
-        created_at: new Date(),
-        updated_at: new Date(),
-        deleted_at: null
-    },
-    {
-        id_bodega: 2,
-        nombre: "Bodega-31",
-        responsable: 1,
-        created_at: new Date(),
-        updated_at: new Date(),
-        deleted_at: null
-    }
-]);
 
+use('mongo_bodegas');
+
+// Insertar un solo documento en la colección "bodegas"
+use('mongo_bodegas');
+db.bodegas.insertOne({
+    id_bodega: 1,
+    nombre: "Bodega A",
+    estado: "activo",
+    responsable: 101,
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null
+});
 
 
 use('mongo_bodegas');
