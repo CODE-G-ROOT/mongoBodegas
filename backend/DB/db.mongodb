@@ -1,3 +1,4 @@
+//? CHECK
 use('mongo_bodegas');
 db.createCollection('users',{
     capped: true,
@@ -22,11 +23,8 @@ db.createCollection('users',{
                 },
                 estado: {
                     bsonType: "string",
-                    description: "El campo 'estado' debe ser string"
-                },
-                email_verified_at: {
-                    bsonType: "date",
-                    description: "el campo de verificación del email debe de ser tipo date con la estructura YYYY-MM-DD"
+                    enum: ["activo", "inactivo"],
+                    description: "El campo 'estado' debe ser string y debe ser activo o inactivo"
                 },
                 foto: {
                     bsonType: "string",
@@ -41,12 +39,12 @@ db.createCollection('users',{
                     description: "el campo 'actualizado por' debe de ser tipo date con el formato YYYY-MM-DD"
                 },
                 deleted_by: {
-                    bsonType: "string",
+                    bsonType: ["null","date"],
                     description: "el campo de eliminación debe de ser de tipo string"
                 },
                 password: {
                     bsonType: "string",
-                    description: "el campo constraña debe de ser de tipo string y puede contener carácteeres especiales"
+                    description: "el campo constraña debe de ser de tipo string y puede contener carácteeres especiales (@ $ ! % * # ? &)"
                 }
             }
         }
@@ -59,57 +57,52 @@ db.users.insertMany([
     {
         nombre: "Juan",
         email: "juanperez@example.com",
-        foto: "https://example.com/juanperez.jpg",
         estado: "activo",
-        email_verified_at: ISODate("2023-08-22T02:19:23.000Z"),
-        created_by: ISODate("2023-08-22T02:19:23.000Z"),
-        updated_by: ISODate("2023-08-22T02:19:23.000Z"),
-        deleted_by: '',
+        foto: "https://example.com/juanperez.jpg",
+        created_by: new Date(),
+        updated_by: new Date(),
+        deleted_by: null,
         password: "micontraseña123"
     },
     {
         nombre: "David",
         email: "juanavila856@gmail.com",
-        foto: "../../assets/img/users/imagen_1.jpg",
         estado: "inactivo", // Corrección: Cambiar "innactivo" a "inactivo"
-        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
-        created_by: ISODate("2023-08-15T00:00:00Z"),
-        updated_by: ISODate("2023-08-15T00:00:00Z"),
-        deleted_by: '',
+        foto: "../../assets/img/users/imagen_1.jpg",
+        created_by: new Date(),
+        updated_by: new Date(),
+        deleted_by: null,
         password: "minionculion123"
     },
     {
         nombre: "Josue",
         email: "juanavila8856@gmail.com",
-        foto: "../../assets/img/users/imagen_1.jpg",
         estado: "activo",
-        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
-        created_by: ISODate("2023-08-15T00:00:00Z"),
-        updated_by: ISODate("2023-08-15T00:00:00Z"),
-        deleted_by: '',
+        foto: "../../assets/img/users/imagen_1.jpg",
+        created_by: new Date(),
+        updated_by: new Date(),
+        deleted_by: null,
         password: "minionculion123"
     },
     {
         nombre: "Ana",
         email: "ana@example.com",
-        foto: "../../assets/img/users/imagen_2.jpg",
         estado: "activo",
-        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
-        created_by: ISODate("2023-08-15T00:00:00Z"),
-        updated_by: ISODate("2023-08-15T00:00:00Z"),
-        deleted_by: '',
+        foto: "../../assets/img/users/imagen_2.jpg",
+        created_by: new Date(),
+        updated_by: new Date(),
+        deleted_by: null,
         password: "password123"
     },
     {
         nombre: "Carlos",
         email: "carlos@example.com",
-        foto: "../../assets/img/users/imagen_3.jpg",
         estado: "inactivo",
-        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
-        created_by: ISODate("2023-08-15T00:00:00Z"),
-        updated_by: ISODate("2023-08-15T00:00:00Z"),
-        deleted_by: '',
-        password: "securepass456"
+        foto: "../../assets/img/users/imagen_3.jpg",
+        created_by: new Date(),
+        updated_by: new Date(),
+        deleted_by: null,
+        password: "securepass456",
     }
 ]);
 
@@ -138,6 +131,7 @@ db.createCollection('bodegas', {
                 
                 nombre: {
                     bsonType: "string",
+                    pattern: "^[a-zA-Z0-9\-]+$",
                     description: "the bodega name just could be string type and just could contain letters, numbers and the symbol '-'"
                 },
                 estado: {
@@ -167,24 +161,55 @@ db.createCollection('bodegas', {
     validationAction: "error"
 });
 use('mongo_bodegas');
-db.bodegas.drop();
+db.bodegas.insertMany([
+    {
+        id_bodega: 1,
+        nombre: "Bodega A",
+        estado: "activo",
+        responsable: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null
+    },
+    {
+        id_bodega: 2,
+        nombre: "Bodega B",
+        estado: "activo",
+        responsable: 2,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null
+    },
+    {
+        id_bodega: 3,
+        nombre: "Bodega C",
+        estado: "inactivo",
+        responsable: 3,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null
+    },
+    {
+        id_bodega: 4,
+        nombre: "Bodega D",
+        estado: "activo",
+        responsable: 4,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null
+    },
+    {
+        id_bodega: 5,
+        nombre: "Bodega E",
+        estado: "inactivo",
+        responsable: 5,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null
+    }
+]);
 
-
-use('mongo_bodegas');
-
-// Insertar un solo documento en la colección "bodegas"
-use('mongo_bodegas');
-db.bodegas.insertOne({
-    id_bodega: 1,
-    nombre: "Bodega A",
-    estado: "activo",
-    responsable: 101,
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null
-});
-
-
+//? CHECK
 use('mongo_bodegas');
 db.createCollection('productos', {
     capped: true,
@@ -235,6 +260,7 @@ db.createCollection('productos', {
     validationLevel : "strict",
     validationAction: "error"
 });
+
 
 use('mongo_bodegas');
 db.createCollection('inventarios', {
