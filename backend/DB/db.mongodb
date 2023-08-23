@@ -221,7 +221,7 @@ db.createCollection('productos', {
             required: [
                 "id_productos",
                 "nombre",
-                "description",
+                "descripcion",
                 "estado",
             ],
             properties: {
@@ -231,15 +231,33 @@ db.createCollection('productos', {
                 },
                 nombre: {
                     bsonType: "string",
-                    pattern: "^[A-Za-z0-9\-]+$",
+                    pattern: "^[A-Za-z0-9\-_]+$",
                     description: "product name msut be string type, just allow letters and numbers"
                 },
-                description: {
+                descripcion: {
                     bsonType: "string",
                     description: "products description must be string type"
                 },
                 estado: {
                     bsonType: "string",
+                    enum: [
+                        "Disponible",
+                        "Agotado",
+                        "En Stock",
+                        "Reservado",
+                        "En espera",
+                        "En tránsito",
+                        "Devuelto",
+                        "Defectuoso",
+                        "En reparacion",
+                        "Descatalogado",
+                        "Eliminado",
+                        "Pendiente de aprovacion",
+                        "Vendido",
+                        "En promocion",
+                        "En preorden",
+                        "Caducado"
+                    ],
                     description: "products status field must be string type"
                 },
                 created_at: {
@@ -251,7 +269,7 @@ db.createCollection('productos', {
                     description: "products update at field must be date type"
                 },
                 deleted_at: {
-                    bsonType: "string",
+                    bsonType: ["null", "date"],
                     description: "products deleted at field must be string or null type"
                 }
             }
@@ -260,6 +278,155 @@ db.createCollection('productos', {
     validationLevel : "strict",
     validationAction: "error"
 });
+use('mongo_bodegas');
+db.productos.insertMany([
+    {
+        id_productos: 1,
+        nombre: "Shampoo-Plus",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Disponible',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 2,
+        nombre: "Toalla-Microfibra",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Agotado',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 3,
+        nombre: "Café-Premium",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'En Stock',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 4,
+        nombre: "Cepillo-Dentales",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Reservado',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 5,
+        nombre: "Zapatos-Elegantes",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'En espera',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 6,
+        nombre: "Tablet-Android",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'En tránsito',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 7,
+        nombre: "Camiseta-Retro",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Devuelto',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 8,
+        nombre: "Reloj-Deportivo",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Defectuoso',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 9,
+        nombre: "Aceite-Cocina",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'En reparacion',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 10,
+        nombre: "Bolígrafo-Gel",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Descatalogado',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 11,
+        nombre: "Mochila-Trekking",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Eliminado',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },{
+        id_productos: 12,
+        nombre: "Vino-Tinto-Reserva",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Pendiente de aprovacion',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 13,
+        nombre: "Laptop-UltraSlim",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Vendido',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 14,
+        nombre: "Bicicleta-Mountain",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'En promocion',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 15,
+        nombre: "Crema-Hidratante",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'En preorden',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 16,
+        nombre: "Auriculares-Bluetooth",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Caducado',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    }
+]);
+
+use('mongo_bodegas');
+db.productos.drop()
 
 
 use('mongo_bodegas');
@@ -301,6 +468,9 @@ db.createCollection('inventarios', {
     validationLevel: "strict",
     validationAction: "error"
 });
+
+
+
 
 use('mongo_bodegas');
 db.createCollection('historiales', {
