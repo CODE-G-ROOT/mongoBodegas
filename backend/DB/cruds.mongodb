@@ -1,0 +1,7 @@
+//? CHECK
+//TODO PUNTO 1  
+use('mongo_bodegas');
+db.bodegas.find({}).sort({ nombre: 1 }).toArray();
+
+
+
