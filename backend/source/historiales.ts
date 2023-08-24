@@ -7,9 +7,9 @@ export class Historiales {
     @IsDefined({ message: () =>  { throw { status: 400, message: "id the param is required", reference: "https://http.cat/400"}}})
     id_historiales: number = 0;
 
-    @Expose({ name: "name"})
-    @IsNumber({}, { message: () => { throw { status: 400, message: "name must be a string type", reference: "https://http.cat/400"}}})
-    @IsDefined({ message: () => { throw { status: 400, message: "name param is required"}}})
+    @Expose({ name: "amount"})
+    @IsNumber({}, { message: () => { throw { status: 400, message: "amount must be a string type", reference: "https://http.cat/400"}}})
+    @IsDefined({ message: () => { throw { status: 400, message: "amount param is required"}}})
     cantidad: number = 0;
 
     constructor(data: Partial<Historiales>) {
