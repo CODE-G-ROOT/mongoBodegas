@@ -1,6 +1,6 @@
 //? CHECK
 use('mongo_bodegas');
-db.createCollection('users',{
+db.createCollection('users', {
     capped: true,
     size: 1000,
     max: 10,
@@ -13,6 +13,10 @@ db.createCollection('users',{
                 "password"
             ],
             properties: {
+                id_user: {
+                    bsonType: "int",
+                    description: "El campo id es requerido y este debe ser un int"
+                },
                 nombre: {
                     bsonType: "string",
                     description: "El campo nombre es requerido y este debe ser un string mayor a 4 carácteres y menor a 41"
@@ -39,7 +43,7 @@ db.createCollection('users',{
                     description: "el campo 'actualizado por' debe de ser tipo date con el formato YYYY-MM-DD"
                 },
                 deleted_by: {
-                    bsonType: ["null","date"],
+                    bsonType: ["null", "date"],
                     description: "el campo de eliminación debe de ser de tipo string"
                 },
                 password: {
@@ -49,7 +53,7 @@ db.createCollection('users',{
             }
         }
     },
-    validationLevel : "strict",
+    validationLevel: "strict",
     validationAction: "error"
 });
 use('mongo_bodegas');
@@ -106,6 +110,9 @@ db.users.insertMany([
     }
 ]);
 
+use('mongo_bodegas');
+db.users.drop()
+
 //? CHECK
 use('mongo_bodegas');
 db.createCollection('bodegas', {
@@ -129,10 +136,9 @@ db.createCollection('bodegas', {
                     bsonType: "int",
                     description: "id field just could be integer type"
                 },
-                
+
                 nombre: {
                     bsonType: "string",
-                    pattern: "^[a-zA-Z0-9\-]+$",
                     description: "the bodega name just could be string type and just could contain letters, numbers and the symbol '-'"
                 },
                 estado: {
@@ -158,14 +164,14 @@ db.createCollection('bodegas', {
             }
         }
     },
-    validationLevel : "strict",
+    validationLevel: "strict",
     validationAction: "error"
 });
 use('mongo_bodegas');
 db.bodegas.insertMany([
     {
         id_bodega: 1,
-        nombre: "Bodega A",
+        nombre: "Bodega-A",
         estado: "activo",
         responsable: 1,
         created_at: new Date(),
@@ -276,7 +282,7 @@ db.createCollection('productos', {
             }
         }
     },
-    validationLevel : "strict",
+    validationLevel: "strict",
     validationAction: "error"
 });
 use('mongo_bodegas');
@@ -379,7 +385,7 @@ db.productos.insertMany([
         created_at: new Date(),
         updated_at: new Date(),
         deleted_at: null,
-    },{
+    }, {
         id_productos: 12,
         nombre: "Vino-Tinto-Reserva",
         descripcion: 'soy la descripción de un producto',
@@ -438,9 +444,14 @@ db.createCollection('inventarios', {
             required: [
                 "id_inventarios",
                 "cantidad",
+                "id_producto"
             ],
             properties: {
                 id_inventarios: {
+                    bsonType: "int",
+                    description: "id_inve must be interger type",
+                },
+                id_producto: {
                     bsonType: "int",
                     description: "id_pro must be interger type",
                 },
@@ -466,11 +477,11 @@ db.createCollection('inventarios', {
     validationLevel: "strict",
     validationAction: "error"
 });
-
 use('mongo_bodegas');
 db.inventarios.insertMany([
     {
         id_inventarios: 1,
+        id_producto: 1,
         cantidad: 21,
         created_at: new Date(),
         updated_at: new Date(),
@@ -478,6 +489,7 @@ db.inventarios.insertMany([
     },
     {
         id_inventarios: 2,
+        id_producto: 1,
         cantidad: 1123,
         created_at: new Date(),
         updated_at: new Date(),
@@ -485,6 +497,7 @@ db.inventarios.insertMany([
     },
     {
         id_inventarios: 3,
+        id_producto: 1,
         cantidad: 212,
         created_at: new Date(),
         updated_at: new Date(),
