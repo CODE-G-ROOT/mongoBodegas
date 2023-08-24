@@ -47,6 +47,19 @@ db.inventarios.aggregate([
     }
 ]);
 
+//* Pendiente
+//TODO PUNTO 4: 
+use('mongo_bodegas');
+db.producto.insertOne({
+    id_productos: '', 
+    nombre: '', 
+    descripcion: '',
+    estado: '',
+    created_at: '',
+    updated_at: '',
+    deleted_at: '',
+});
+
 
 
 
