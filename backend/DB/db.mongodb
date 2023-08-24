@@ -232,6 +232,10 @@ db.createCollection('productos', {
                 "estado",
             ],
             properties: {
+                id_bodegas: {
+                    bsonType: "int",
+                    description: "bodegas id field must be interger type"
+                },
                 id_productos: {
                     bsonType: "int",
                     description: "products id field must be interger type"
@@ -432,6 +436,9 @@ db.productos.insertMany([
     }
 ]);
 
+use('mongo_bodegas');
+db.productos.drop()
+
 
 use('mongo_bodegas');
 db.createCollection('inventarios', {
@@ -454,6 +461,10 @@ db.createCollection('inventarios', {
                 id_producto: {
                     bsonType: "int",
                     description: "id_pro must be interger type",
+                },
+                id_bodega: {
+                    bsonType: "int",
+                    description: "id_bo must be interger type",
                 },
                 cantidad: {
                     bsonType: "int",
@@ -482,6 +493,7 @@ db.inventarios.insertMany([
     {
         id_inventarios: 1,
         id_producto: 1,
+        id_bodega: 1,
         cantidad: 21,
         created_at: new Date(),
         updated_at: new Date(),
@@ -490,6 +502,7 @@ db.inventarios.insertMany([
     {
         id_inventarios: 2,
         id_producto: 1,
+        id_bodega: 2,
         cantidad: 1123,
         created_at: new Date(),
         updated_at: new Date(),
@@ -498,6 +511,7 @@ db.inventarios.insertMany([
     {
         id_inventarios: 3,
         id_producto: 1,
+        id_bodega: 3,
         cantidad: 212,
         created_at: new Date(),
         updated_at: new Date(),
