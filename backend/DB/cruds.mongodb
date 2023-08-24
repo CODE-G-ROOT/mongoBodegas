@@ -15,3 +15,38 @@ db.bodegas.insertOne({
     updated_at: new Date(),
     deleted_at: null,
 })
+
+//? CHECK
+//TODO PUNTO 3: Productos listados por TOTAL
+use('mongo_bodegas');
+db.inventarios.aggregate([
+    {
+        $lookup: {
+            from: "productos",
+            localField: "id_producto",
+            foreignField: "id_productos",
+            as: "productos"
+        }
+    },
+    {
+        $unwind: "$productos"
+    },
+    {
+        $group: {
+            _id: "$productos._id", // Cambio aquí para usar _id del producto
+            total: {
+                $sum: "$cantidad"
+            }
+        }
+    },
+    {
+        $project: {
+            producto: "$_id", // Cambio aquí para proyectar el campo como "producto"
+            total: 1
+        }
+    }
+]);
+
+
+
+
