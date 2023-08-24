@@ -61,5 +61,11 @@ db.producto.insertOne({
 });
 
 
+//TODO PUNTO 5: Insertar reigstros en inventario: Parámetros(id_prod, id_bodeg_, cantidad)
+use('mongo_bodegas');
+db.producto.aggregate([
+    
+])
+
 
 
