@@ -1,7 +1,7 @@
 import { Expose, Transform } from 'class-transformer';
 import { IsDate, IsDefined, IsNumber, IsString, Matches} from 'class-validator';
 
-export class Productos {
+export class Users {
     @Expose({ name: "name"})
     @IsString({ message: () => { throw { status: 400, message: "name must be a string type", reference: "https://http.cat/400"}}})
     @IsDefined({ message: () => { throw { status: 400, message: "name param is required"}}})
@@ -27,7 +27,7 @@ export class Productos {
     @IsDefined({ message: () => { throw { status: 400, message: "password param is required"}}})
     password: string = '';
 
-    constructor(data: Partial<Productos>) {
+    constructor(data: Partial<Users>) {
         Object.assign(this, data);
     }
 }
