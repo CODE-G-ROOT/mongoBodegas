@@ -594,3 +594,4 @@ db.historiales.insertMany([
         deleted_at: null,
     },
 ])
+
