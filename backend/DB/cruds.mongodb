@@ -1,0 +1,79 @@
+//? CHECK
+//TODO PUNTO 1  
+use('mongo_bodegas');
+db.bodegas.find({}).sort({ nombre: 1 }).toArray();
+
+//? CHECK
+//TODO PUNTO 2: CREAR BODEGAS
+use('mongo_bodegas');
+db.bodegas.insertOne({
+    id_bodega: 156,
+    nombre: "Soy Bodega",
+    estado: "estatica",
+    responsable: 1,
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+})
+
+//? CHECK
+//TODO PUNTO 3: Productos listados por TOTAL
+use('mongo_bodegas');
+db.inventarios.aggregate([
+    {
+        $lookup: {
+            from: "productos",
+            localField: "id_producto",
+            foreignField: "id_productos",
+            as: "productos"
+        }
+    },
+    {
+        $unwind: "$productos"
+    },
+    {
+        $group: {
+            _id: "$productos._id", // Cambio aquí para usar _id del producto
+            total: {
+                $sum: "$cantidad"
+            }
+        }
+    },
+    {
+        $project: {
+            producto: "$_id", // Cambio aquí para proyectar el campo como "producto"
+            total: 1
+        }
+    }
+]);
+
+//* Pendiente
+//TODO PUNTO 4: 
+use('mongo_bodegas');
+db.producto.insertOne({
+    id_productos: '',
+    nombre: '',
+    descripcion: '',
+    estado: '',
+    created_at: '',
+    updated_at: '',
+    deleted_at: '',
+});
+
+//? CHECK
+//TODO PUNTO 5: Insertar reigstros en inventario: Parámetros(id_prod, id_bodeg_, cantidad)
+use('mongo_bodegas');
+db.inventarios.insertOne({
+    id_inventarios: '',
+    id_producto: '',
+    id_bodega: '',
+    cantidad: '',
+    created_at: '',
+    updated_at: '',
+    deleted_at: '',
+});
+
+
+
+
+

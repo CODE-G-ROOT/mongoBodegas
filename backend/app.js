@@ -1,7 +1,6 @@
-import dotenv from 'dotenv';
 import expres from 'express';
 import data from './settings.js';
-import db from './connection/connect.js';
+// import db from './connection/connect.js';
 // import { token, verify } from './helpers/token.js';
 
 // console.clear();

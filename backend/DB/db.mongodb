@@ -1,125 +1,124 @@
+//? CHECK
 use('mongo_bodegas');
-db.createCollection('users',
-    {
-        capped: true,
-        size: 1000,
-        max: 10,
-        validator: {
-            $jsonSchema: {
-                required: [
-                    "nombre",
-                    "email",
-                    "estado",
-                    "password"
-                ],
-                properties: {
-                    nombre: {
-                        bsonType: "string",
-                        description: "El campo nombre es requerido y este debe ser un string mayor a 4 carácteres y menor a 41"
-                    },
-                    email: {
-                        bsonType: "string",
-                        description: "El campo email debe ser de tipo string"
-                    },
-                    estado: {
-                        bsonType: "string",
-                        description: "El campo 'estado' debe ser string"
-                    },
-                    email_verified_at: {
-                        bsonType: "date",
-                        description: "el campo de verificación del email debe de ser tipo date con la estructura YYYY-MM-DD"
-                    },
-                    foto: {
-                        bsonType: "string",
-                        description: "el campo de la foto debe de ser string"
-                    },
-                    created_by: {
-                        bsonType: "date",
-                        description: "el campo 'creado por' debe de ser tipo date con el formato YYYY-MM-DD"
-                    },
-                    updated_by: {
-                        bsonType: "date",
-                        description: "el campo 'actualizado por' debe de ser tipo date con el formato YYYY-MM-DD"
-                    },
-                    deleted_by: {
-                        bsonType: "string",
-                        description: "el campo de eliminación debe de ser de tipo string"
-                    },
-                    password: {
-                        bsonType: "string",
-                        description: "el campo constraña debe de ser de tipo string y puede contener carácteeres especiales"
-                    }
+db.createCollection('users', {
+    capped: true,
+    size: 1000,
+    max: 10,
+    validator: {
+        $jsonSchema: {
+            required: [
+                "nombre",
+                "email",
+                "estado",
+                "password"
+            ],
+            properties: {
+                id_user: {
+                    bsonType: "int",
+                    description: "El campo id es requerido y este debe ser un int"
+                },
+                nombre: {
+                    bsonType: "string",
+                    description: "El campo nombre es requerido y este debe ser un string mayor a 4 carácteres y menor a 41"
+                },
+                email: {
+                    bsonType: "string",
+                    description: "El campo email debe ser de tipo string"
+                },
+                estado: {
+                    bsonType: "string",
+                    enum: ["activo", "inactivo"],
+                    description: "El campo 'estado' debe ser string y debe ser activo o inactivo"
+                },
+                foto: {
+                    bsonType: "string",
+                    description: "el campo de la foto debe de ser string"
+                },
+                created_by: {
+                    bsonType: "date",
+                    description: "el campo 'creado por' debe de ser tipo date con el formato YYYY-MM-DD"
+                },
+                updated_by: {
+                    bsonType: "date",
+                    description: "el campo 'actualizado por' debe de ser tipo date con el formato YYYY-MM-DD"
+                },
+                deleted_by: {
+                    bsonType: ["null", "date"],
+                    description: "el campo de eliminación debe de ser de tipo string"
+                },
+                password: {
+                    bsonType: "string",
+                    description: "el campo constraña debe de ser de tipo string y puede contener carácteeres especiales (@ $ ! % * # ? &)"
                 }
             }
         }
+    },
+    validationLevel: "strict",
+    validationAction: "error"
 });
 use('mongo_bodegas');
 db.users.insertMany([
     {
         nombre: "Juan",
         email: "juanperez@example.com",
-        foto: "https://example.com/juanperez.jpg",
         estado: "activo",
-        email_verified_at: ISODate("2023-08-22T02:19:23.000Z"),
-        created_by: ISODate("2023-08-22T02:19:23.000Z"),
-        updated_by: ISODate("2023-08-22T02:19:23.000Z"),
-        deleted_by: '',
+        foto: "https://example.com/juanperez.jpg",
+        created_by: new Date(),
+        updated_by: new Date(),
+        deleted_by: null,
         password: "micontraseña123"
     },
     {
         nombre: "David",
         email: "juanavila856@gmail.com",
-        foto: "../../assets/img/users/imagen_1.jpg",
         estado: "inactivo", // Corrección: Cambiar "innactivo" a "inactivo"
-        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
-        created_by: ISODate("2023-08-15T00:00:00Z"),
-        updated_by: ISODate("2023-08-15T00:00:00Z"),
-        deleted_by: '',
+        foto: "../../assets/img/users/imagen_1.jpg",
+        created_by: new Date(),
+        updated_by: new Date(),
+        deleted_by: null,
         password: "minionculion123"
     },
     {
         nombre: "Josue",
         email: "juanavila8856@gmail.com",
-        foto: "../../assets/img/users/imagen_1.jpg",
         estado: "activo",
-        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
-        created_by: ISODate("2023-08-15T00:00:00Z"),
-        updated_by: ISODate("2023-08-15T00:00:00Z"),
-        deleted_by: '',
+        foto: "../../assets/img/users/imagen_1.jpg",
+        created_by: new Date(),
+        updated_by: new Date(),
+        deleted_by: null,
         password: "minionculion123"
     },
     {
         nombre: "Ana",
         email: "ana@example.com",
-        foto: "../../assets/img/users/imagen_2.jpg",
         estado: "activo",
-        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
-        created_by: ISODate("2023-08-15T00:00:00Z"),
-        updated_by: ISODate("2023-08-15T00:00:00Z"),
-        deleted_by: '',
+        foto: "../../assets/img/users/imagen_2.jpg",
+        created_by: new Date(),
+        updated_by: new Date(),
+        deleted_by: null,
         password: "password123"
     },
     {
         nombre: "Carlos",
         email: "carlos@example.com",
-        foto: "../../assets/img/users/imagen_3.jpg",
         estado: "inactivo",
-        email_verified_at: ISODate("2023-08-15T00:00:00Z"),
-        created_by: ISODate("2023-08-15T00:00:00Z"),
-        updated_by: ISODate("2023-08-15T00:00:00Z"),
-        deleted_by: '',
-        password: "securepass456"
+        foto: "../../assets/img/users/imagen_3.jpg",
+        created_by: new Date(),
+        updated_by: new Date(),
+        deleted_by: null,
+        password: "securepass456",
     }
 ]);
 
+//? CHECK
 use('mongo_bodegas');
 db.createCollection('bodegas', {
     capped: true,
-    size: 900,
-    max: 220,
+    size: 1000,
+    max: 10,
     validator: {
         $jsonSchema: {
-            type: "object",
+            bsonType: "object",
             required: [
                 "id_bodega",
                 "nombre",
@@ -130,18 +129,22 @@ db.createCollection('bodegas', {
                 "deleted_at"
             ],
             properties: {
-                id_bodegas: {
+                id_bodega: {
                     bsonType: "int",
-                    description: "id field just could be interger type"
+                    description: "id field just could be integer type"
                 },
+
                 nombre: {
                     bsonType: "string",
-                    pattern: "^[A-Za-z0-9\-]+$",
-                    description: "the bodega name just could be string type and just could contain letters, numbers and the simbol '-'"
+                    description: "the bodega name just could be string type and just could contain letters, numbers and the symbol '-'"
                 },
-                resposable: {
+                estado: {
                     bsonType: "string",
-                    description: "responable field must be string type"
+                    description: "the bodega name just could be string type and just could contain letters, numbers and the symbol '-'"
+                },
+                responsable: {
+                    bsonType: "int",
+                    description: "responsable field must be integer type"
                 },
                 created_at: {
                     bsonType: "date",
@@ -149,19 +152,293 @@ db.createCollection('bodegas', {
                 },
                 updated_at: {
                     bsonType: "date",
-                    description: "uptade_at field must be date type"
+                    description: "update_at field must be date type"
                 },
                 deleted_at: {
-                    bsonType: "string",
-                    description: "delete_at field must be null o string type"
+                    bsonType: ["null", "date"],
+                    description: "delete_at field must be null or date type"
                 }
             }
         }
-    }
+    },
+    validationLevel: "strict",
+    validationAction: "error"
 });
+use('mongo_bodegas');
+db.bodegas.insertMany([
+    {
+        id_bodega: 1,
+        nombre: "Bodega-A",
+        estado: "activo",
+        responsable: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null
+    },
+    {
+        id_bodega: 2,
+        nombre: "Bodega B",
+        estado: "activo",
+        responsable: 2,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null
+    },
+    {
+        id_bodega: 3,
+        nombre: "Bodega C",
+        estado: "inactivo",
+        responsable: 3,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null
+    },
+    {
+        id_bodega: 4,
+        nombre: "Bodega D",
+        estado: "activo",
+        responsable: 4,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null
+    },
+    {
+        id_bodega: 5,
+        nombre: "Bodega E",
+        estado: "inactivo",
+        responsable: 5,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null
+    }
+]);
 
+//? CHECK
 use('mongo_bodegas');
 db.createCollection('productos', {
+    capped: true,
+    size: 900,
+    max: 220,
+    validator: {
+        $jsonSchema: {
+            type: "object",
+            required: [
+                "id_productos",
+                "nombre",
+                "descripcion",
+                "estado",
+            ],
+            properties: {
+                id_bodegas: {
+                    bsonType: "int",
+                    description: "bodegas id field must be interger type"
+                },
+                id_productos: {
+                    bsonType: "int",
+                    description: "products id field must be interger type"
+                },
+                nombre: {
+                    bsonType: "string",
+                    pattern: "^[A-Za-z0-9\-_]+$",
+                    description: "product name msut be string type, just allow letters and numbers"
+                },
+                descripcion: {
+                    bsonType: "string",
+                    description: "products description must be string type"
+                },
+                estado: {
+                    bsonType: "string",
+                    enum: [
+                        "Disponible",
+                        "Agotado",
+                        "En Stock",
+                        "Reservado",
+                        "En espera",
+                        "En tránsito",
+                        "Devuelto",
+                        "Defectuoso",
+                        "En reparacion",
+                        "Descatalogado",
+                        "Eliminado",
+                        "Pendiente de aprovacion",
+                        "Vendido",
+                        "En promocion",
+                        "En preorden",
+                        "Caducado"
+                    ],
+                    description: "products status field must be string type"
+                },
+                created_at: {
+                    bsonType: "date",
+                    description: "products created at field must be date type"
+                },
+                updated_at: {
+                    bsonType: "date",
+                    description: "products update at field must be date type"
+                },
+                deleted_at: {
+                    bsonType: ["null", "date"],
+                    description: "products deleted at field must be string or null type"
+                }
+            }
+        }
+    },
+    validationLevel: "strict",
+    validationAction: "error"
+});
+use('mongo_bodegas');
+db.productos.insertMany([
+    {
+        id_productos: 1,
+        nombre: "Shampoo-Plus",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Disponible',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 2,
+        nombre: "Toalla-Microfibra",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Agotado',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 3,
+        nombre: "Café-Premium",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'En Stock',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 4,
+        nombre: "Cepillo-Dentales",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Reservado',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 5,
+        nombre: "Zapatos-Elegantes",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'En espera',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 6,
+        nombre: "Tablet-Android",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'En tránsito',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 7,
+        nombre: "Camiseta-Retro",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Devuelto',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 8,
+        nombre: "Reloj-Deportivo",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Defectuoso',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 9,
+        nombre: "Aceite-Cocina",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'En reparacion',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 10,
+        nombre: "Bolígrafo-Gel",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Descatalogado',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 11,
+        nombre: "Mochila-Trekking",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Eliminado',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    }, {
+        id_productos: 12,
+        nombre: "Vino-Tinto-Reserva",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Pendiente de aprovacion',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 13,
+        nombre: "Laptop-UltraSlim",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Vendido',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 14,
+        nombre: "Bicicleta-Mountain",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'En promocion',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 15,
+        nombre: "Crema-Hidratante",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'En preorden',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_productos: 16,
+        nombre: "Auriculares-Bluetooth",
+        descripcion: 'soy la descripción de un producto',
+        estado: 'Caducado',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    }
+]);
+
+use('mongo_bodegas');
+db.productos.drop()
+
+
+use('mongo_bodegas');
+db.createCollection('inventarios', {
     capped: true,
     size: 900,
     max: 10,
@@ -169,39 +446,152 @@ db.createCollection('productos', {
         $jsonSchema: {
             type: 'object',
             required: [
-                "id_productos",
-                "nombre",
-                "descripcion",
-                "estado",
-                "created_at",
-                "updated_at",
+                "id_inventarios",
+                "cantidad",
+                "id_producto"
             ],
             properties: {
-                id_productos: {
+                id_inventarios: {
+                    bsonType: "int",
+                    description: "id_inve must be interger type",
+                },
+                id_producto: {
                     bsonType: "int",
                     description: "id_pro must be interger type",
                 },
-                nombre: {
-                    bsonType: "string",
-                    description: "product name must be string type"
+                id_bodega: {
+                    bsonType: "int",
+                    description: "id_bo must be interger type",
                 },
-                estado: {
-                    bsonType: "string",
-                    description: "product status must be string type"
+                cantidad: {
+                    bsonType: "int",
+                    description: "inventary name must be string type"
                 },
                 created_at: {
                     bsonType: "date",
-                    description: "product creation at must be date type"
+                    description: "inventary creation at must be date type"
                 },
                 updated_at: {
                     bsonType: "date",
-                    description: "product update at must be date type"
+                    description: "inventary update at must be date type"
                 },
                 deleted_at: {
-                    bsonType: "string",
-                    description: "deleted product at must be string or null type"
+                    bsonType: ["null", "date"],
+                    description: "deleted inventary at must be string or null type"
                 }
             }
         }
-    }
+    },
+    validationLevel: "strict",
+    validationAction: "error"
 });
+use('mongo_bodegas');
+db.inventarios.insertMany([
+    {
+        id_inventarios: 1,
+        id_producto: 1,
+        id_bodega: 1,
+        cantidad: 21,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_inventarios: 2,
+        id_producto: 1,
+        id_bodega: 2,
+        cantidad: 1123,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_inventarios: 3,
+        id_producto: 1,
+        id_bodega: 3,
+        cantidad: 212,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+]);
+
+use('mongo_bodegas');
+db.createCollection('historiales', {
+    capped: true,
+    size: 900,
+    max: 10,
+    validator: {
+        $jsonSchema: {
+            type: "object",
+            required: [
+                "id_historiales",
+                "cantidad",
+            ],
+            properties: {
+                id_historiales: {
+                    bsonType: "int",
+                    description: "hisoriales identify field must be interger type"
+                },
+                cantidad: {
+                    bsonType: "int",
+                    description: "historiales cantidad field must be interger type"
+                },
+                created_at: {
+                    bsonType: "date",
+                    description: "historiales created at field must be date type"
+                },
+                updated_at: {
+                    bsonType: "date",
+                    description: "historiales updated at field must be date type"
+                },
+                deleted_at: {
+                    bsonType: "string",
+                    description: "historiales deleted at field must be string o null type"
+                }
+            }
+        }
+    },
+    validationAction: "error",
+    validationLevel: "strict"
+})
+
+use('mongo_bodegas');
+db.historiales.insertMany([
+    {
+        id_historiales: 1,
+        cantidad: 123,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_historiales: 2,
+        cantidad: 453,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_historiales: 3,
+        cantidad: 364,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_historiales: 4,
+        cantidad: 13,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+    {
+        id_historiales: 5,
+        cantidad: 67,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
+    },
+])
+
