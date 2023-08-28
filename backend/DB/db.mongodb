@@ -110,6 +110,7 @@ db.users.insertMany([
     }
 ]);
 
+
 //? CHECK
 use('mongo_bodegas');
 db.createCollection('bodegas', {
